@@ -1,19 +1,18 @@
 import re
 
-def alphabetToNumber(c: str):
+def alphabet_to_number(c: str):
     return ord(c.lower()) - 97
 
-def removeNumber(s: str):
+def remove_number(s: str):
     return ''.join([i for i in s if not i.isdigit()])
 
-def removePunctuation(s: str):
+def remove_punctuation(s: str):
     return re.sub(r'[^\w\s]','',s)
 
-def removeSpace(s: str):
+def remove_space(s: str):
     return s.replace(" ", "")
 
-def modInverse(A: int, M: int):
-
+def mod_inverse(A: int, M: int):
     for X in range(1, M):
         if (((A % M) * (X % M)) % M == 1):
             return X
@@ -21,8 +20,8 @@ def modInverse(A: int, M: int):
 
 if __name__=='__main__':
     s = '1 2ab cd4.,"*05  '
-    s = removePunctuation(s)
-    s = removeNumber(s)
-    s = removeSpace(s)
+    s = remove_punctuation(s)
+    s = remove_number(s)
+    s = remove_space(s)
     print(s)
 
