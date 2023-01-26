@@ -18,6 +18,9 @@ def mod_inverse(A: int, M: int):
             return X
     return -1
 
+def to_lower_case(text: str):
+    return text.lower()
+
 if __name__=='__main__':
     s = '1 2ab cd4.,"*05  '
     s = remove_punctuation(s)
