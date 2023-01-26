@@ -11,7 +11,7 @@ def affine_encrypt(plaintext: str, pergeseran: int, relatifprima: int):
     plaintext = lib.remove_number(plaintext)
     plaintext = lib.remove_space(plaintext)
 
-    letters : list = list(plaintext)
+    letters = lib.split_letter(plaintext)
 
     cipher_text = list(map(encrypt_single_char,letters,[pergeseran for _ in range(len(letters))],[relatifprima for _ in range(len(letters))]))
     return "".join(cipher_text).upper()
@@ -44,7 +44,7 @@ def decrypt_char(cipherchar:str, pergeseran:int, relatifprima:int):
 
     plain_char = m_inverse * (lib.alphabet_to_number(cipherchar) - pergeseran)
     plain_char = plain_char % 26
-    return chr(plain_char + 97)
+    return lib.number_to_alphabet(plain_char)
 
 
 if __name__ == '__main__':

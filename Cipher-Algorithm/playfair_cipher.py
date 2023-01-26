@@ -101,18 +101,7 @@ def create_digraphs(plaintext:str):
     text = digest_double_letter(plaintext)
     if not len(text) % 2 == 0:
         text = text + 'x'
-    return convert_to_digraph(text)
-
-def convert_to_digraph(text: str):
-    """ Membagi text menjadi array of digraph """
-    digraph = []
-    group = 0
-    for i in range(2, len(text), 2):
-        digraph.append(text[group:i])
- 
-        group = i
-    digraph.append(text[group:])
-    return digraph
+    return lib.convert_to_ngraph(text,2)
 
 def digest_double_letter(text:str):
     """ Plain text dimodifikasi agar mengikuti aturan digraph """
@@ -173,7 +162,7 @@ def playfair_decrypt(key: str, cipher_text: str):
     cipher_text = lib.to_lower_case(cipher_text)
 
     key_square = create_key_square(key)
-    digraphs = convert_to_digraph(cipher_text)
+    digraphs = lib.convert_to_ngraph(cipher_text,2)
 
     alphabet_square_dict = {}
     for letter in ALFABET:
