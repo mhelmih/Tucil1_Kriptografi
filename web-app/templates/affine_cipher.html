@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+{% block title %}
+Affine Cipher
+{% endblock %}
+{% block head %}
+{{ super() }}
+{% endblock %}
+{% block content %}
+<div class="cipher-content">
+    <form action="" method="post" class="encode form">
+        <h2>
+            Affine Encode
+        </h2>
+        <p>Write...</p>
+        <div class="label-input">
+            <label for="encode-text">Plain Text</label>
+            <textarea name="encode-text" id="" cols="30" rows="10"></textarea>
+        </div>
+    </form>
+    <div class="vl"></div>
+    <form action="" method="post" class="decode form">
+        <h2>
+            Affine Decode
+        </h2>
+        <p>Write...</p>
+        <div class="label-input">
+            <label for="decode-text">Cipher Text</label>
+            <textarea name="decode-text" id="" cols="30" rows="10"></textarea>
+        </div>
+    </form>
+</div>
+{% endblock %}
