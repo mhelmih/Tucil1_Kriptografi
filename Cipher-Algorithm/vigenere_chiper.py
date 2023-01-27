@@ -41,7 +41,7 @@ def vigenere_autokey_encrypt(plaintext: str, key: str):
     
     plaintext = vigenere_preprocess(plaintext)
     key = generate_vigenere_autokey(plaintext, key)
-
+    
     chiper = []
     for i in range(len(plaintext)):
         c = (lib.alphabet_to_number(plaintext[i]) + lib.alphabet_to_number(key[i])) % 26
@@ -68,7 +68,7 @@ def generate_vigenere_autokey(plaintext: str, key: str):
     """ Generate key with length of plaintext """
     
     while len(key) < len(plaintext):
-        key += plaintext[len(key)]
+        key += plaintext
 
     return key[:len(plaintext)]
 
