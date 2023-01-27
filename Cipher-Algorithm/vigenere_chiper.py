@@ -4,7 +4,7 @@ def vigenere_standard_encrypt(plaintext: str, key: str):
     """ Vigenere Standard Encrypt """
     
     plaintext = vigenere_preprocess(plaintext)
-    key = generate_vigenere_key(plaintext, key)
+    key = generate_vigenere_standard_key(plaintext, key)
 
     chiper = []
     for i in range(len(plaintext)):
@@ -18,7 +18,7 @@ def vigenere_standard_decrypt(chiper: str, key: str):
     """ Vigenere Standard Decrypt """
     
     chiper = vigenere_preprocess(chiper)
-    key = generate_vigenere_key(chiper, key)
+    key = generate_vigenere_standard_key(chiper, key)
     
     plaintext = []
     for i in range(len(chiper)):
@@ -28,11 +28,47 @@ def vigenere_standard_decrypt(chiper: str, key: str):
         
     return "".join(plaintext)
 
-def generate_vigenere_key(plaintext: str, key: str):
+def generate_vigenere_standard_key(plaintext: str, key: str):
     """ Generate key with length of plaintext """
     
     while len(key) < len(plaintext):
         key += key
+
+    return key[:len(plaintext)]
+
+def vigenere_autokey_encrypt(plaintext: str, key: str):
+    """ Vigenere Autokey Encrypt """
+    
+    plaintext = vigenere_preprocess(plaintext)
+    key = generate_vigenere_autokey(plaintext, key)
+
+    chiper = []
+    for i in range(len(plaintext)):
+        c = (lib.alphabet_to_number(plaintext[i]) + lib.alphabet_to_number(key[i])) % 26
+        c = chr(c + 97)
+        chiper.append(c)
+    
+    return "".join(chiper).upper()
+
+def vigenere_autokey_decrypt(chiper: str, key: str):
+    """ Vigenere Autokey Decrypt """
+    
+    chiper = vigenere_preprocess(chiper)
+    key = generate_vigenere_autokey(chiper, key)
+    
+    plaintext = []
+    for i in range(len(chiper)):
+        p = (lib.alphabet_to_number(chiper[i]) - lib.alphabet_to_number(key[i])) % 26
+        p = chr(p + 97)
+        plaintext.append(p)
+        
+    return "".join(plaintext)
+
+def generate_vigenere_autokey(plaintext: str, key: str):
+    """ Generate key with length of plaintext """
+    
+    while len(key) < len(plaintext):
+        key += plaintext[len(key)]
 
     return key[:len(plaintext)]
 
