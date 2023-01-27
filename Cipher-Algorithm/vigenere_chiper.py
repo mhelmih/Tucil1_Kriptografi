@@ -1,7 +1,7 @@
 import lib
 
 def vigenere_standard_encrypt(plaintext: str, key: str):
-    """ Vigenere Standard Encrypt """
+    """ Standard Vigenere Encrypt """
     
     plaintext = vigenere_preprocess(plaintext)
     key = generate_vigenere_standard_key(plaintext, key)
@@ -15,7 +15,7 @@ def vigenere_standard_encrypt(plaintext: str, key: str):
     return "".join(chiper).upper()
 
 def vigenere_standard_decrypt(chiper: str, key: str):
-    """ Vigenere Standard Decrypt """
+    """ Standard Vigenere Decrypt """
     
     chiper = vigenere_preprocess(chiper)
     key = generate_vigenere_standard_key(chiper, key)
@@ -29,7 +29,7 @@ def vigenere_standard_decrypt(chiper: str, key: str):
     return "".join(plaintext)
 
 def generate_vigenere_standard_key(plaintext: str, key: str):
-    """ Generate key with length of plaintext """
+    """ Generate key with length of plaintext for Standard Vigenere Chiper"""
     
     while len(key) < len(plaintext):
         key += key
@@ -37,7 +37,7 @@ def generate_vigenere_standard_key(plaintext: str, key: str):
     return key[:len(plaintext)]
 
 def vigenere_autokey_encrypt(plaintext: str, key: str):
-    """ Vigenere Autokey Encrypt """
+    """ Auto-key Vigenere Encrypt """
     
     plaintext = vigenere_preprocess(plaintext)
     key = generate_vigenere_autokey(plaintext, key)
@@ -51,7 +51,7 @@ def vigenere_autokey_encrypt(plaintext: str, key: str):
     return "".join(chiper).upper()
 
 def vigenere_autokey_decrypt(chiper: str, key: str):
-    """ Vigenere Autokey Decrypt """
+    """ Auto-key Vigenere Decrypt """
     
     chiper = vigenere_preprocess(chiper)
     key = generate_vigenere_autokey(chiper, key)
@@ -65,7 +65,7 @@ def vigenere_autokey_decrypt(chiper: str, key: str):
     return "".join(plaintext)
 
 def generate_vigenere_autokey(plaintext: str, key: str):
-    """ Generate key with length of plaintext """
+    """ Generate key with length of plaintext for Auto-key Vigenere Chiper """
     
     while len(key) < len(plaintext):
         key += plaintext
@@ -80,3 +80,37 @@ def vigenere_preprocess(text: str):
     text = lib.remove_space(text)
 
     return text
+
+def vigenere_extended_encrypt(plaintext: bytes, key: bytes):
+    """ Extended Vigenere Encrypt """
+    
+    plaintext = vigenere_preprocess(plaintext)
+    key = generate_vigenere_extended_key(plaintext, key)
+
+    chiper = []
+    for i in range(len(plaintext)):
+        c = (plaintext[i] + key[i]) % 256
+        chiper.append(c)
+    
+    return bytes(chiper)
+
+def vigenere_extended_decrypt(chiper: bytes, key: bytes):
+    """ Extended Vigenere Decrypt """
+    
+    chiper = vigenere_preprocess(chiper)
+    key = generate_vigenere_extended_key(chiper, key)
+    
+    plaintext = []
+    for i in range(len(chiper)):
+        p = (chiper[i] - key[i]) % 256
+        plaintext.append(p)
+        
+    return bytes(plaintext)
+
+def generate_vigenere_extended_key(plaintext: bytes, key: bytes):
+    """ Generate key with length of plaintext for Extended Vigenere Chiper """
+    
+    while len(key) < len(plaintext):
+        key += key
+
+    return key[:len(plaintext)]
