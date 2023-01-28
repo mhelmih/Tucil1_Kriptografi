@@ -8,6 +8,10 @@ footer {
     padding-bottom: 0.5rem;
 }
 
+textarea {   /* for all text* area elements */
+    resize: none;
+  }
+
 .container {
     max-width: 54rem;
     padding: 0 1rem;
@@ -43,15 +47,34 @@ footer {
     border-left: 1px solid black;
   }
 
-.label-input{
+.radio-button-container {
+    display: flex;
+    justify-content: center;
+}
+
+.flex-col{
     display: flex;
     flex-direction: column;
 }
 
-.form p{
+.flex-row{
+    display: flex;
+    flex-direction: row;
+}
+
+.text-center{
     text-align: center;
 }
 
+.center {
+    margin: auto;
+    width: 50%;
+    padding: 10px;
+  }
+
+.cursor-pointer{
+    cursor: pointer;
+}
 
 .menu {
     background-color: #fff;
