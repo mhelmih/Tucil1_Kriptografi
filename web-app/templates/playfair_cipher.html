@@ -29,7 +29,7 @@ Playfair Cipher
             }
         </script>
         <h2>
-            Affine Encode
+            Playfair Encode
         </h2>
         <div class="radio-button-container">
             <input type="radio" id="write-encode" name="input-type" value="write" onclick="inputTypeCheckEncode()" checked>
@@ -52,8 +52,13 @@ Playfair Cipher
         
         <!-- Above are copypasteable -->
         
-        <!-- Below are copypasteable -->
-        
+        <div class="flex-row">
+            <label for="playfair_key">Key:</label>
+            <input type="text" id="playfair_key" name="key" onkeydown="return /[a-z]/i.test(event.key)" required>
+        </div>
+
+        <!-- Below are copypasteable ( batasnya sampe tag </form> ) -->
+
         <input type="submit" name="action-type" value="encrypt" class="center cursor-pointer">
         {% if hasil_cipher_text %}
             <p>Hasil: </p>
@@ -66,10 +71,9 @@ Playfair Cipher
             </div>
         {% endif %}
     </form>
-    <div class="vl"></div>
     <form method="post" enctype=multipart/form-data class="decode form">
         <h2>
-            Affine Decode
+            Playfair Decode
         </h2>
         <div class="radio-button-container">
             <input type="radio" id="write-decode" name="input-type" value="write" onclick="inputTypeCheckDecode()" checked>
@@ -90,6 +94,11 @@ Playfair Cipher
         <hr style="width: 90%;">
 
         <!-- Above are copypasteable -->
+
+        <div class="flex-row">
+            <label for="playfair_key">Key:</label>
+            <input type="text" id="playfair_key" name="key" onkeydown="return /[a-z]/i.test(event.key)" required>
+        </div>
         
         <!-- Below are copypasteable -->
         <input type="submit" name="action-type" value="decrypt" class="center cursor-pointer">

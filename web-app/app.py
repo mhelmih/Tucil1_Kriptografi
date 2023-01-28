@@ -2,6 +2,7 @@ from flask import Flask, render_template, url_for, request, flash, redirect, sen
 from werkzeug.datastructures import ImmutableMultiDict
 from cipher_algo.affine_cipher import affine_encrypt, affine_decrypt
 import os
+import affine_handler
 
 UPLOAD_FOLDER = './uploads' 
 app = Flask(__name__)
@@ -19,85 +20,21 @@ def download_file(path):
 
 @app.route('/playfair_cipher/', methods=['GET','POST'])
 def playfair_cipher():
+    if request.method == 'GET':
+        return render_template('playfair_cipher.html')
+    if request.method == 'POST':
+        pass
     return render_template('playfair_cipher.html')
+        
 
 @app.route('/affine_cipher/', methods=['GET','POST'])
 def affine_cipher():
     if request.method == 'GET':
-        return render_template('affine_cipher.html')
+        return affine_handler.affine_get(app)
     if request.method == 'POST':
-        data = dict(request.form)
-        if data['action-type'] == 'encrypt':
-            if data['input-type'] == 'write':
-                plain_text = data['text']
-                coprime = int(data['coprime'])
-                pergeseran = int(data['koefisien-pergeseran'])
-                hasil_cipher_text = affine_encrypt(plain_text, pergeseran, coprime)
-                return render_template('affine_cipher.html', hasil_cipher_text=hasil_cipher_text,plain_text=plain_text)
-            
-            if data['input-type'] == 'file':
-                if 'encode-file' not in request.files:
-                    flash('No file part')
-                    return redirect(request.url)
-                file = request.files['encode-file']
-                # If the user does not select a file, the browser submits an
-                # empty file without a filename.
-                if file.filename == '':
-                    flash('No selected file')
-                    return redirect(request.url)
-                file_payload = file.read()
-                filename, file_extension = os.path.splitext(file.filename)
-                new_filename = filename + '_encrypted' + file_extension
-
-                coprime = int(data['coprime'])
-                pergeseran = int(data['koefisien-pergeseran'])
-
-                hasil_cipher_text = affine_encrypt(file_payload.decode("utf-8"),pergeseran,coprime)
-
-                hasil_cipher_bytes = bytes(hasil_cipher_text, encoding='utf-8')
-
-                destination_path = os.path.join(app.config['UPLOAD_FOLDER'], new_filename)
-                f = open(destination_path, "wb")
-                f.write(hasil_cipher_bytes)
-                f.close()
-                return render_template('affine_cipher.html', hasil_cipher_filepath=destination_path, hasil_cipher_filename=new_filename)
-
-        elif data['action-type'] == 'decrypt':
-            if data['input-type'] == 'write':
-                cipher_text = data['text']
-                coprime = int(data['coprime'])
-                pergeseran = int(data['koefisien-pergeseran'])
-                hasil_plain_text = affine_decrypt(cipher_text, pergeseran, coprime)
-                return render_template('affine_cipher.html', cipher_text=cipher_text,hasil_plain_text=hasil_plain_text)
-
-            if data['input-type'] == 'file':
-                if 'decode-file' not in request.files:
-                    flash('No file part')
-                    return redirect(request.url)
-                file = request.files['decode-file']
-                # If the user does not select a file, the browser submits an
-                # empty file without a filename.
-                if file.filename == '':
-                    flash('No selected file')
-                    return redirect(request.url)
-                file_payload = file.read()
-                filename, file_extension = os.path.splitext(file.filename)
-                new_filename = filename + '_decrypted' + file_extension
-
-                coprime = int(data['coprime'])
-                pergeseran = int(data['koefisien-pergeseran'])
-
-                hasil_plain_text = affine_decrypt(file_payload.decode("utf-8"),pergeseran,coprime)
-
-                hasil_plain_bytes = bytes(hasil_plain_text, encoding='utf-8')
-
-                destination_path = os.path.join(app.config['UPLOAD_FOLDER'], new_filename)
-                f = open(destination_path, "wb")
-                f.write(hasil_plain_bytes)
-                f.close()
-                return render_template('affine_cipher.html', hasil_plain_filepath=destination_path, hasil_plain_filename=new_filename)
-        
-        return render_template('affine_cipher.html')
+        return affine_handler.affine_post(app)
+    
+    return render_template('affine_cipher.html')
 
 
 if __name__ == '__main__':
