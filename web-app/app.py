@@ -17,6 +17,10 @@ def download_file(path):
     print(path)
     return send_file(path, as_attachment=True)
 
+@app.route('/playfair_cipher/', methods=['GET','POST'])
+def playfair_cipher():
+    return render_template('playfair_cipher.html')
+
 @app.route('/affine_cipher/', methods=['GET','POST'])
 def affine_cipher():
     if request.method == 'GET':

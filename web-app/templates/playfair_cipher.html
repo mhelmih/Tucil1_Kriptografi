@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 {% block title %}
-Affine Cipher
+Playfair Cipher
 {% endblock %}
 {% block head %}
 {{ super() }}
@@ -51,32 +51,9 @@ Affine Cipher
 
         
         <!-- Above are copypasteable -->
-
-        <div class="flex-row">
-            <label for="coprime">26's coprime:</label>
-            <select name="coprime">
-                <option value="1">1</option>
-                <option value="3">3</option>
-                <option value="5">5</option>
-                <option value="7">7</option>
-                <option value="9">9</option>
-                <option value="11">11</option>
-                <option value="15">15</option>
-                <option value="17">17</option>
-                <option value="19">19</option>
-                <option value="21">21</option>
-                <option value="23">23</option>
-                <option value="25">25</option>
-            </select>
-        </div>
-
-        <div class="flex-row">
-            <label for="koefisien-pergeseran">Koefisien pergeseran:</label>
-            <input type="number" id="koefisien-pergeseran" name="koefisien-pergeseran" min="0" max="26" required>
-        </div>
-
+        
         <!-- Below are copypasteable -->
-
+        
         <input type="submit" name="action-type" value="encrypt" class="center cursor-pointer">
         {% if hasil_cipher_text %}
             <p>Hasil: </p>
@@ -113,29 +90,6 @@ Affine Cipher
         <hr style="width: 90%;">
 
         <!-- Above are copypasteable -->
-        
-        <div class="flex-row">
-            <label for="coprime">26's coprime:</label>
-            <select name="coprime">
-                <option value="1">1</option>
-                <option value="3">3</option>
-                <option value="5">5</option>
-                <option value="7">7</option>
-                <option value="9">9</option>
-                <option value="11">11</option>
-                <option value="15">15</option>
-                <option value="17">17</option>
-                <option value="19">19</option>
-                <option value="21">21</option>
-                <option value="23">23</option>
-                <option value="25">25</option>
-            </select>
-        </div>
-
-        <div class="flex-row">
-            <label for="koefisien-pergeseran">Koefisien pergeseran:</label>
-            <input type="number" id="koefisien-pergeseran" name="koefisien-pergeseran" min="0" max="26" required>
-        </div>
         
         <!-- Below are copypasteable -->
         <input type="submit" name="action-type" value="decrypt" class="center cursor-pointer">
