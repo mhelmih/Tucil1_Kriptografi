@@ -1,8 +1,7 @@
 from flask import Flask, render_template, url_for, request, flash, redirect, send_file
 from werkzeug.datastructures import ImmutableMultiDict
-from cipher_algo.affine_cipher import affine_encrypt, affine_decrypt
 import os
-import affine_handler
+import affine_handler, playfair_handler
 
 UPLOAD_FOLDER = './uploads' 
 app = Flask(__name__)
@@ -15,15 +14,14 @@ def index():
 
 @app.route('/download/<path>')
 def download_file(path):
-    print(path)
     return send_file(path, as_attachment=True)
 
 @app.route('/playfair_cipher/', methods=['GET','POST'])
 def playfair_cipher():
     if request.method == 'GET':
-        return render_template('playfair_cipher.html')
+        return playfair_handler.playfair_get(app)
     if request.method == 'POST':
-        pass
+        return playfair_handler.playfair_post(app)
     return render_template('playfair_cipher.html')
         
 
