@@ -10,79 +10,95 @@ Vigenere Cipher
 
 {% block content %}
 <div class="form">
-    <form method="post" enctype=multipart/form-data class="encode form">
+    <form method="post" enctype=multipart/form-data class="encrypt form">
         <script type="text/javascript">
-            function inputTypeCheckEncode() {
-                if (document.getElementById('write-encode').checked) {
-                    document.getElementById('encode-text-area').disabled = false;
-                    document.getElementById('encode-file').disabled = true;
+            function inputTypeCheckEncrypt() {
+                if (document.getElementById('write-encrypt').checked) {
+                    document.getElementById('encrypt-text-area').disabled = false;
+                    document.getElementById('encrypt-file').disabled = true;
                 } else {
-                    document.getElementById('encode-text-area').disabled = true;
-                    document.getElementById('encode-file').disabled = false;
+                    document.getElementById('encrypt-text-area').disabled = true;
+                    document.getElementById('encrypt-file').disabled = false;
                 }
             }
 
-            function inputTypeCheckDecode() {
-                if (document.getElementById('write-decode').checked) {
-                    document.getElementById('decode-text-area').disabled = false;
-                    document.getElementById('decode-file').disabled = true;
+            function inputTypeCheckDecrypt() {
+                if (document.getElementById('write-decrypt').checked) {
+                    document.getElementById('decrypt-text-area').disabled = false;
+                    document.getElementById('decrypt-file').disabled = true;
                 } else {
-                    document.getElementById('decode-text-area').disabled = true;
-                    document.getElementById('decode-file').disabled = false;
+                    document.getElementById('decrypt-text-area').disabled = true;
+                    document.getElementById('decrypt-file').disabled = false;
                 }
             }
 
-            function vigenereModeCheck() {
-                document.getElementById('vigenere_key').value = '';
-                if (document.getElementById('vigenere-extended').checked) {
-                    document.getElementById('vigenere_key').removeAttribute('onkeydown');
+            function vigenereModeEncryptCheck() {
+                document.getElementById('vigenere-key').value = '';
+                document.getElementById('encrypt-file').value = '';
+                if (document.getElementById('vigenere-extended-encrypt').checked) {
+                    document.getElementById('vigenere-key').removeAttribute('onkeydown');
+                    document.getElementById('encrypt-file').removeAttribute('accept');
                 } else {
-                    document.getElementById('vigenere_key').onkeydown = function(event) {
+                    document.getElementById('vigenere-key').onkeydown = function(event) {
                         return /[a-z]/i.test(event.key)
                     }
+                    document.getElementById('encrypt-file').setAttribute('accept', 'text/plain');
+                }
+            }
+
+            function vigenereModeDecryptCheck() {
+                document.getElementById('vigenere-key').value = '';
+                document.getElementById('decrypt-file').value = '';
+                if (document.getElementById('vigenere-extended-decrypt').checked) {
+                    document.getElementById('vigenere-key').removeAttribute('onkeydown');
+                    document.getElementById('decrypt-file').removeAttribute('accept');
+                } else {
+                    document.getElementById('vigenere-key').onkeydown = function(event) {
+                        return /[a-z]/i.test(event.key)
+                    }
+                    document.getElementById('decrypt-file').setAttribute('accept', 'text/plain');
                 }
             }
         </script>
         <h2>
-            Vigenere Encode
+            Vigenere Encrypt
         </h2>
+        <div class="flex-row">
+            <label for="vigenere-mode">Mode:</label>
+            <input type="radio" id="vigenere-standard-encrypt" name="vigenere-mode" value="standard" onclick="vigenereModeEncryptCheck()" checked>
+            <label for="vigenere-standard" style="margin-right: 16px;">Standard</label>
+            <input type="radio" id="vigenere-autokey-encrypt" name="vigenere-mode" value="auto-key" onclick="vigenereModeEncryptCheck()">
+            <label for="vigenere-autokey" style="margin-right: 16px;">Auto Key</label>
+            <input type="radio" id="vigenere-extended-encrypt" name="vigenere-mode" value="extended" onclick="vigenereModeEncryptCheck()">
+            <label for="vigenere-extended" style="margin-right: 16px;">Extended</label>
+        </div>
 
         <div class="radio-button-container">
-            <input type="radio" id="write-encode" name="input-type" value="write" onclick="inputTypeCheckEncode()" checked>
-            <label for="write-encode">Tulis...</label>
+            <input type="radio" id="write-encrypt" name="input-type" value="write" onclick="inputTypeCheckEncrypt()" checked>
+            <label for="write-encrypt">Tulis...</label>
         </div>
         <div class="flex-col">
-            <label for="encode-text-area">Plain Text</label>
-            <textarea name="text" placeholder="Masukkan plain teks disini..." id="encode-text-area" cols="30" rows="10">{{ plain_text }}</textarea>
+            <label for="encrypt-text-area">Plain Text</label>
+            <textarea name="text" placeholder="Masukkan plain teks disini..." id="encrypt-text-area" cols="30" rows="10">{{ plain_text }}</textarea>
         </div>
 
         <div class="radio-button-container">
-            <input type="radio" id="file-encode" name="input-type" value="file" onclick="inputTypeCheckEncode()">
-            <label for="file-encode">atau upload file</label>
+            <input type="radio" id="file-encrypt" name="input-type" value="file" onclick="inputTypeCheckEncrypt()">
+            <label for="file-encrypt">atau upload file</label>
         </div>
 
         <div class="flex-col">
-            <input type="file" name="encode-file" id="encode-file" disabled>
+            <input type="file" name="encrypt-file" id="encrypt-file" accept="text/plain" disabled>
         </div>
 
         <hr style="width: 90%;">
 
         
         <!-- Above are copypasteable -->
-
-        <div class="flex-row">
-            <label for="vigenere-mode">Mode:</label>
-            <input type="radio" id="vigenere-standard" name="vigenere-mode" value="standard" onclick="vigenereModeCheck()" checked>
-            <label for="vigenere-standard" style="margin-right: 16px;">Standard</label>
-            <input type="radio" id="vigenere-autokey" name="vigenere-mode" value="auto-key" onclick="vigenereModeCheck()">
-            <label for="vigenere-autokey" style="margin-right: 16px;">Auto Key</label>
-            <input type="radio" id="vigenere-extended" name="vigenere-mode" value="extended" onclick="vigenereModeCheck()">
-            <label for="vigenere-extended" style="margin-right: 16px;">Extended</label>
-        </div>
         
         <div class="flex-row">
-            <label for="vigenere_key">Key:</label>
-            <input type="text" id="vigenere_key" name="key" onkeydown="return /[a-z]/i.test(event.key)" required>
+            <label for="vigenere-key">Key:</label>
+            <input type="text" id="vigenere-key" name="key" onkeydown="return /[a-z]/i.test(event.key)" required>
         </div>
 
         <!-- Below are copypasteable ( batasnya sampe tag </form> ) -->
@@ -100,42 +116,44 @@ Vigenere Cipher
         {% endif %}
     </form>
 
-    <form method="post" enctype=multipart/form-data class="decode form">
+    <form method="post" enctype=multipart/form-data class="decrypt form">
         <h2>
-            Vigenere Decode
+            Vigenere Decrypt
         </h2>
+        <div class="flex-row">
+            <label for="vigenere-mode">Mode:</label>
+            <input type="radio" id="vigenere-standard-decrypt" name="vigenere-mode" value="standard" onclick="vigenereModeDecryptCheck()" checked>
+            <label for="vigenere-standard" style="margin-right: 16px;">Standard</label>
+            <input type="radio" id="vigenere-autokey-decrypt" name="vigenere-mode" value="auto-key" onclick="vigenereModeDecryptCheck()">
+            <label for="vigenere-autokey" style="margin-right: 16px;">Auto Key</label>
+            <input type="radio" id="vigenere-extended-decrypt" name="vigenere-mode" value="extended" onclick="vigenereModeDecryptCheck()">
+            <label for="vigenere-extended" style="margin-right: 16px;">Extended</label>
+        </div>
+
         <div class="radio-button-container">
-            <input type="radio" id="write-decode" name="input-type" value="write" onclick="inputTypeCheckDecode()" checked>
-            <label for="write-decode">Tulis...</label>
+            <input type="radio" id="write-decrypt" name="input-type" value="write" onclick="inputTypeCheckDecrypt()" checked>
+            <label for="write-decrypt">Tulis...</label>
         </div>
         <div class="flex-col">
-            <label for="decode-text-area">Cipher Text</label>
-            <textarea name="text" placeholder="Masukkan cipher teks disini..." id="decode-text-area" cols="30" rows="10">{{ cipher_text }}</textarea>
-            
+            <label for="decrypt-text-area">Cipher Text</label>
+            <textarea name="text" placeholder="Masukkan cipher teks disini..." id="decrypt-text-area" cols="30" rows="10">{{ cipher_text }}</textarea>
         </div>
+
         <div class="radio-button-container">
-            <input type="radio" id="file-decode" name="input-type" value="file" onclick="inputTypeCheckDecode()">
-            <label for="file-decode">atau upload file</label>
+            <input type="radio" id="file-decrypt" name="input-type" value="file" onclick="inputTypeCheckDecrypt()">
+            <label for="file-decrypt">atau upload file</label>
         </div>
+
         <div class="flex-col">
-            <input type="file" name="decode-file" id="decode-file" disabled>
+            <input type="file" name="decrypt-file" id="decrypt-file" accept="plain/text" disabled>
         </div>
         <hr style="width: 90%;">
 
         <!-- Above are copypasteable -->
-        <div class="flex-row">
-            <label for="vigenere-mode">Mode:</label>
-            <input type="radio" id="vigenere-standard" name="vigenere-mode" value="standard" onclick="vigenereModeCheck()" checked>
-            <label for="vigenere-standard" style="margin-right: 16px;">Standard</label>
-            <input type="radio" id="vigenere-autokey" name="vigenere-mode" value="auto-key" onclick="vigenereModeCheck()">
-            <label for="vigenere-autokey" style="margin-right: 16px;">Auto Key</label>
-            <input type="radio" id="vigenere-extended" name="vigenere-mode" value="extended" onclick="vigenereModeCheck()">
-            <label for="vigenere-extended" style="margin-right: 16px;">Extended</label>
-        </div>
 
         <div class="flex-row">
-            <label for="vigenere_key">Key:</label>
-            <input type="text" id="vigenere_key" name="key" onkeydown="return /[a-z]/i.test(event.key)" required>
+            <label for="vigenere-key">Key:</label>
+            <input type="text" id="vigenere-key" name="key" onkeydown="return /[a-z]/i.test(event.key)" required>
         </div>
         
         <!-- Below are copypasteable -->

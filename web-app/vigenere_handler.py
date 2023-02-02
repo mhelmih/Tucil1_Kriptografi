@@ -16,7 +16,7 @@ def vigenere_post(app: Flask):
             return render_template('vigenere_cipher.html', hasil_cipher_text=ciphertext, plain_text=data['text'])
         elif data['action-type'] == 'decrypt':
             plaintext = vigenere_decrypt(data['text'], data['key'], data['vigenere-mode'])
-            return render_template('playfair_cipher.html', cipher_text=data['text'],hasil_plain_text=plaintext)
+            return render_template('vigenere_cipher.html', cipher_text=data['text'],hasil_plain_text=plaintext)
         
     elif data['input-type'] == 'file':
         if data['action-type'] == 'encrypt':
