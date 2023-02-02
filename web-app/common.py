@@ -20,3 +20,10 @@ def save_result(text, path, filename):
     f.write(hasil_bytes)
     f.close()
     return destination_path
+
+def save_binary_result(text, path, filename):
+    destination_path = os.path.join(path, filename)
+    f = open(destination_path, "wb")
+    f.write(text)
+    f.close()
+    return destination_path

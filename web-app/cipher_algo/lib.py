@@ -61,6 +61,9 @@ def remove_punctuation(s: str):
 
 def remove_space(s: str):
     return s.replace(" ", "")
+  
+def remove_newline(s: str):
+    return s.replace("\n", "")
 
 def mod_inverse(A: int, M: int):
     for X in range(1, M):

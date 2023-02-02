@@ -1,7 +1,7 @@
 from flask import Flask, render_template, url_for, request, flash, redirect, send_file
 from werkzeug.datastructures import ImmutableMultiDict
 import os
-import affine_handler, playfair_handler, hill_handler
+import affine_handler, playfair_handler, hill_handler, vigenere_handler
 
 UPLOAD_FOLDER = './uploads' 
 app = Flask(__name__)
@@ -15,6 +15,14 @@ def index():
 @app.route('/download/<path>')
 def download_file(path):
     return send_file(path, as_attachment=True)
+
+@app.route('/vigenere_cipher/', methods=['GET','POST'])
+def vigenere_cipher():
+    if request.method == 'GET':
+        return vigenere_handler.vigenere_get(app)
+    if request.method == 'POST':
+        return vigenere_handler.vigenere_post(app)
+    return render_template('vigenere_cipher.html')
 
 @app.route('/playfair_cipher/', methods=['GET','POST'])
 def playfair_cipher():

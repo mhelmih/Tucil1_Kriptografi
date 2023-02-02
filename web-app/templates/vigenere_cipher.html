@@ -1,0 +1,157 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Vigenere Cipher
+{% endblock %}
+
+{% block head %}
+{{ super() }}
+{% endblock %}
+
+{% block content %}
+<div class="form">
+    <form method="post" enctype=multipart/form-data class="encode form">
+        <script type="text/javascript">
+            function inputTypeCheckEncode() {
+                if (document.getElementById('write-encode').checked) {
+                    document.getElementById('encode-text-area').disabled = false;
+                    document.getElementById('encode-file').disabled = true;
+                } else {
+                    document.getElementById('encode-text-area').disabled = true;
+                    document.getElementById('encode-file').disabled = false;
+                }
+            }
+
+            function inputTypeCheckDecode() {
+                if (document.getElementById('write-decode').checked) {
+                    document.getElementById('decode-text-area').disabled = false;
+                    document.getElementById('decode-file').disabled = true;
+                } else {
+                    document.getElementById('decode-text-area').disabled = true;
+                    document.getElementById('decode-file').disabled = false;
+                }
+            }
+
+            function vigenereModeCheck() {
+                document.getElementById('vigenere_key').value = '';
+                if (document.getElementById('vigenere-extended').checked) {
+                    document.getElementById('vigenere_key').removeAttribute('onkeydown');
+                } else {
+                    document.getElementById('vigenere_key').onkeydown = function(event) {
+                        return /[a-z]/i.test(event.key)
+                    }
+                }
+            }
+        </script>
+        <h2>
+            Vigenere Encode
+        </h2>
+
+        <div class="radio-button-container">
+            <input type="radio" id="write-encode" name="input-type" value="write" onclick="inputTypeCheckEncode()" checked>
+            <label for="write-encode">Tulis...</label>
+        </div>
+        <div class="flex-col">
+            <label for="encode-text-area">Plain Text</label>
+            <textarea name="text" placeholder="Masukkan plain teks disini..." id="encode-text-area" cols="30" rows="10">{{ plain_text }}</textarea>
+        </div>
+
+        <div class="radio-button-container">
+            <input type="radio" id="file-encode" name="input-type" value="file" onclick="inputTypeCheckEncode()">
+            <label for="file-encode">atau upload file</label>
+        </div>
+
+        <div class="flex-col">
+            <input type="file" name="encode-file" id="encode-file" disabled>
+        </div>
+
+        <hr style="width: 90%;">
+
+        
+        <!-- Above are copypasteable -->
+
+        <div class="flex-row">
+            <label for="vigenere-mode">Mode:</label>
+            <input type="radio" id="vigenere-standard" name="vigenere-mode" value="standard" onclick="vigenereModeCheck()" checked>
+            <label for="vigenere-standard" style="margin-right: 16px;">Standard</label>
+            <input type="radio" id="vigenere-autokey" name="vigenere-mode" value="auto-key" onclick="vigenereModeCheck()">
+            <label for="vigenere-autokey" style="margin-right: 16px;">Auto Key</label>
+            <input type="radio" id="vigenere-extended" name="vigenere-mode" value="extended" onclick="vigenereModeCheck()">
+            <label for="vigenere-extended" style="margin-right: 16px;">Extended</label>
+        </div>
+        
+        <div class="flex-row">
+            <label for="vigenere_key">Key:</label>
+            <input type="text" id="vigenere_key" name="key" onkeydown="return /[a-z]/i.test(event.key)" required>
+        </div>
+
+        <!-- Below are copypasteable ( batasnya sampe tag </form> ) -->
+
+        <input type="submit" name="action-type" value="encrypt" class="center cursor-pointer">
+        {% if hasil_cipher_text %}
+            <p>Hasil: </p>
+            <p>{{ hasil_cipher_text }}</p>
+        {% endif %}
+        {% if hasil_cipher_filepath and hasil_cipher_filename %}
+            <div>
+                <p>Hasil: </p>
+                <a href="{{ url_for('.download_file', path=hasil_cipher_filepath) }}">{{hasil_cipher_filename}}</a>
+            </div>
+        {% endif %}
+    </form>
+
+    <form method="post" enctype=multipart/form-data class="decode form">
+        <h2>
+            Vigenere Decode
+        </h2>
+        <div class="radio-button-container">
+            <input type="radio" id="write-decode" name="input-type" value="write" onclick="inputTypeCheckDecode()" checked>
+            <label for="write-decode">Tulis...</label>
+        </div>
+        <div class="flex-col">
+            <label for="decode-text-area">Cipher Text</label>
+            <textarea name="text" placeholder="Masukkan cipher teks disini..." id="decode-text-area" cols="30" rows="10">{{ cipher_text }}</textarea>
+            
+        </div>
+        <div class="radio-button-container">
+            <input type="radio" id="file-decode" name="input-type" value="file" onclick="inputTypeCheckDecode()">
+            <label for="file-decode">atau upload file</label>
+        </div>
+        <div class="flex-col">
+            <input type="file" name="decode-file" id="decode-file" disabled>
+        </div>
+        <hr style="width: 90%;">
+
+        <!-- Above are copypasteable -->
+        <div class="flex-row">
+            <label for="vigenere-mode">Mode:</label>
+            <input type="radio" id="vigenere-standard" name="vigenere-mode" value="standard" onclick="vigenereModeCheck()" checked>
+            <label for="vigenere-standard" style="margin-right: 16px;">Standard</label>
+            <input type="radio" id="vigenere-autokey" name="vigenere-mode" value="auto-key" onclick="vigenereModeCheck()">
+            <label for="vigenere-autokey" style="margin-right: 16px;">Auto Key</label>
+            <input type="radio" id="vigenere-extended" name="vigenere-mode" value="extended" onclick="vigenereModeCheck()">
+            <label for="vigenere-extended" style="margin-right: 16px;">Extended</label>
+        </div>
+
+        <div class="flex-row">
+            <label for="vigenere_key">Key:</label>
+            <input type="text" id="vigenere_key" name="key" onkeydown="return /[a-z]/i.test(event.key)" required>
+        </div>
+        
+        <!-- Below are copypasteable -->
+        <input type="submit" name="action-type" value="decrypt" class="center cursor-pointer">
+        
+    </form>
+    {% if hasil_plain_text %}
+        <p>Hasil: </p>
+        <p>{{ hasil_plain_text }}</p>
+    {% endif %}
+
+    {% if hasil_plain_filepath and hasil_plain_filename %}
+        <div>
+            <p>Hasil: </p>
+            <a href="{{ url_for('.download_file', path=hasil_plain_filepath) }}">{{hasil_plain_filename}}</a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,35 +1,38 @@
-import lib
+from cipher_algo import lib
 
 def vigenere_standard_encrypt(plaintext: str, key: str):
     """ Standard Vigenere Encrypt """
     
     plaintext = vigenere_preprocess(plaintext)
     key = generate_vigenere_standard_key(plaintext, key)
+    print(len(plaintext), len(key))
+    print(plaintext)
+    print(key)
 
-    chiper = []
+    cipher = []
     for i in range(len(plaintext)):
         c = (lib.alphabet_to_number(plaintext[i]) + lib.alphabet_to_number(key[i])) % 26
         c = chr(c + 97)
-        chiper.append(c)
+        cipher.append(c)
     
-    return "".join(chiper).upper()
+    return "".join(cipher).upper()
 
-def vigenere_standard_decrypt(chiper: str, key: str):
+def vigenere_standard_decrypt(cipher: str, key: str):
     """ Standard Vigenere Decrypt """
     
-    chiper = vigenere_preprocess(chiper)
-    key = generate_vigenere_standard_key(chiper, key)
+    cipher = vigenere_preprocess(cipher)
+    key = generate_vigenere_standard_key(cipher, key)
     
     plaintext = []
-    for i in range(len(chiper)):
-        p = (lib.alphabet_to_number(chiper[i]) - lib.alphabet_to_number(key[i])) % 26
+    for i in range(len(cipher)):
+        p = (lib.alphabet_to_number(cipher[i]) - lib.alphabet_to_number(key[i])) % 26
         p = chr(p + 97)
         plaintext.append(p)
         
     return "".join(plaintext)
 
 def generate_vigenere_standard_key(plaintext: str, key: str):
-    """ Generate key with length of plaintext for Standard Vigenere Chiper"""
+    """ Generate key with length of plaintext for Standard Vigenere cipher"""
     
     while len(key) < len(plaintext):
         key += key
@@ -42,30 +45,30 @@ def vigenere_autokey_encrypt(plaintext: str, key: str):
     plaintext = vigenere_preprocess(plaintext)
     key = generate_vigenere_autokey(plaintext, key)
     
-    chiper = []
+    cipher = []
     for i in range(len(plaintext)):
         c = (lib.alphabet_to_number(plaintext[i]) + lib.alphabet_to_number(key[i])) % 26
         c = chr(c + 97)
-        chiper.append(c)
+        cipher.append(c)
     
-    return "".join(chiper).upper()
+    return "".join(cipher).upper()
 
-def vigenere_autokey_decrypt(chiper: str, key: str):
+def vigenere_autokey_decrypt(cipher: str, key: str):
     """ Auto-key Vigenere Decrypt """
     
-    chiper = vigenere_preprocess(chiper)
-    key = generate_vigenere_autokey(chiper, key)
+    cipher = vigenere_preprocess(cipher)
+    key = generate_vigenere_autokey(cipher, key)
     
     plaintext = []
-    for i in range(len(chiper)):
-        p = (lib.alphabet_to_number(chiper[i]) - lib.alphabet_to_number(key[i])) % 26
+    for i in range(len(cipher)):
+        p = (lib.alphabet_to_number(cipher[i]) - lib.alphabet_to_number(key[i])) % 26
         p = chr(p + 97)
         plaintext.append(p)
         
     return "".join(plaintext)
 
 def generate_vigenere_autokey(plaintext: str, key: str):
-    """ Generate key with length of plaintext for Auto-key Vigenere Chiper """
+    """ Generate key with length of plaintext for Auto-key Vigenere cipher """
     
     while len(key) < len(plaintext):
         key += plaintext
@@ -78,39 +81,41 @@ def vigenere_preprocess(text: str):
     text = lib.remove_punctuation(text)
     text = lib.remove_number(text)
     text = lib.remove_space(text)
+    text = lib.remove_newline(text)
 
     return text
 
 def vigenere_extended_encrypt(plaintext: bytes, key: bytes):
     """ Extended Vigenere Encrypt """
     
-    plaintext = vigenere_preprocess(plaintext)
     key = generate_vigenere_extended_key(plaintext, key)
+    key = bytes(key, encoding='utf-8')
 
-    chiper = []
+    cipher = []
     for i in range(len(plaintext)):
         c = (plaintext[i] + key[i]) % 256
-        chiper.append(c)
+        cipher.append(c)
     
-    return bytes(chiper)
+    return bytes(cipher)
 
-def vigenere_extended_decrypt(chiper: bytes, key: bytes):
+def vigenere_extended_decrypt(cipher: bytes, key: bytes):
     """ Extended Vigenere Decrypt """
     
-    chiper = vigenere_preprocess(chiper)
-    key = generate_vigenere_extended_key(chiper, key)
+    key = generate_vigenere_extended_key(cipher, key)
+    key = bytes(key, encoding='utf-8')
     
     plaintext = []
-    for i in range(len(chiper)):
-        p = (chiper[i] - key[i]) % 256
+    for i in range(len(cipher)):
+        p = (cipher[i] - key[i]) % 256
         plaintext.append(p)
         
     return bytes(plaintext)
 
 def generate_vigenere_extended_key(plaintext: bytes, key: bytes):
-    """ Generate key with length of plaintext for Extended Vigenere Chiper """
+    """ Generate key with length of plaintext for Extended Vigenere cipher """
     
     while len(key) < len(plaintext):
         key += key
 
     return key[:len(plaintext)]
+    
