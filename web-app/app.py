@@ -1,7 +1,7 @@
 from flask import Flask, render_template, url_for, request, flash, redirect, send_file
 from werkzeug.datastructures import ImmutableMultiDict
 import os
-import affine_handler, playfair_handler
+import affine_handler, playfair_handler, hill_handler
 
 UPLOAD_FOLDER = './uploads' 
 app = Flask(__name__)
@@ -31,9 +31,15 @@ def affine_cipher():
         return affine_handler.affine_get(app)
     if request.method == 'POST':
         return affine_handler.affine_post(app)
-    
     return render_template('affine_cipher.html')
 
+@app.route('/hill_cipher/', methods=['GET','POST'])
+def hill_cipher():
+    if request.method == 'GET':
+        return hill_handler.hill_get(app)
+    if request.method == 'POST':
+        return hill_handler.hill_post(app)
+    return render_template('hill_cipher.html')
 
 if __name__ == '__main__':
     app.run(debug=True)

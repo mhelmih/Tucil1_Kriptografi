@@ -76,3 +76,14 @@ form{
     border: 1px solid #eaf0f6;
     box-shadow: 0 2px 4px rgb(33 51 67 / 12%);
 }
+
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+
+.matrix-cell {
+    max-width: 3em;
+}

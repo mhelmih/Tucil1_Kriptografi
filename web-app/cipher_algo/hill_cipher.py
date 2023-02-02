@@ -1,14 +1,14 @@
 import numpy as np
-import lib
+from cipher_algo import lib
 
-def hill_encrypt(plaintext: str, n: int, keyfiller:list):
+def hill_encrypt(plaintext: str, n: int, matrix:list):
     """ Enkripsi teks menggunakan hill cipher """
-    key_matrix = create_key_matrix(n, keyfiller)
+    # key_matrix = create_key_matrix(n, keyfiller)
 
     text = fill_plain_text(plaintext, n) if not len(plaintext) % n == 0 else plaintext
     ngraphs = lib.convert_to_ngraph(text, n)
 
-    return encrypt_ngraphs(ngraphs, key_matrix)
+    return encrypt_ngraphs(ngraphs, matrix)
 
 def encrypt_ngraphs(plainngraphs: list, keymatrix: list):
     plainngraphs = list(map(lib.split_letter, plainngraphs))
@@ -46,11 +46,11 @@ def create_key_matrix(n: int, keyfiller:list):
         y += 1
     return matrix
 
-def hill_decrypt(ciphertext:str,n: int, keyfiller:list):
-    key_matrix = create_key_matrix(n, keyfiller)
+def hill_decrypt(ciphertext:str,n: int, matrix:list):
+    # key_matrix = create_key_matrix(n, keyfiller)
     text = fill_plain_text(ciphertext, n) if not len(ciphertext) % n == 0 else ciphertext
     ngraphs = lib.convert_to_ngraph(text, n)
-    return decrypt_ngraphs(ngraphs,key_matrix)
+    return decrypt_ngraphs(ngraphs,matrix)
 
 def decrypt_ngraphs(cipher: list, keymatrix: list):
     cipher = list(map(lib.split_letter, cipher))
