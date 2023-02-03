@@ -19,29 +19,33 @@ def vigenere_post(app: Flask):
             return render_template('vigenere_cipher.html', cipher_text=data['text'],hasil_plain_text=plaintext)
         
     elif data['input-type'] == 'file':
+        print(request.files)
+        print(data)
         if data['action-type'] == 'encrypt':
-            if 'encode-file' not in request.files:
+            if 'encrypt-file' not in request.files:
                 flash('No file part')
                 return redirect(request.url)
 
-            filename, file_extension, file_payload = common.get_file_content(request.files['encode-file'])
+            print("masuk 1")
+            filename, file_extension, file_payload = common.get_file_content(request.files['encrypt-file'])
             new_filename = filename + '_encrypted' + file_extension
-            
+            print("masuk 2")
             if data['vigenere-mode'] == 'extended':
                 ciphertext = vigenere_encrypt(file_payload, data['key'], data['vigenere-mode'])
                 destination_path = common.save_binary_result(ciphertext, app.config['UPLOAD_FOLDER'], new_filename)
             else:
+                print("masuk 3")
                 ciphertext = vigenere_encrypt(file_payload.decode('utf-8'), data['key'], data['vigenere-mode'])
                 destination_path = common.save_result(ciphertext, app.config['UPLOAD_FOLDER'], new_filename)
-
+            print("masuk 4")
             return render_template('vigenere_cipher.html', hasil_cipher_filepath=destination_path, hasil_cipher_filename=new_filename)
         
         elif data['action-type'] == 'decrypt':
-            if 'decode-file' not in request.files:
+            if 'decrypt-file' not in request.files:
                 flash('No file part')
                 return redirect(request.url)
             
-            filename, file_extension, file_payload = common.get_file_content(request.files['decode-file'])
+            filename, file_extension, file_payload = common.get_file_content(request.files['decrypt-file'])
             new_filename = filename + '_decrypted' + file_extension
             
             if data['vigenere-mode'] == 'extended':
