@@ -29,8 +29,10 @@ def playfair_encrypt(key: str, plaintext: str):
     for digraph in digraphs:
         c1 = 0
         c2 = 0
-        e1x, e1y = alphabet_square_dict[digraph[0]]
-        e2x, e2y = alphabet_square_dict[digraph[1]]
+        w1 = 'i' if digraph[0] == 'j' else digraph[0]
+        w2 = 'i' if digraph[1] == 'j' else digraph[1]
+        e1x, e1y = alphabet_square_dict[w1]
+        e2x, e2y = alphabet_square_dict[w2]
  
         if e1x == e2x:
             c1, c2 = encrypt_row(key_square, e1x, e1y, e2x, e2y)
