@@ -5,9 +5,6 @@ def vigenere_standard_encrypt(plaintext: str, key: str):
     
     plaintext = vigenere_preprocess(plaintext)
     key = generate_vigenere_standard_key(plaintext, key)
-    print(len(plaintext), len(key))
-    print(plaintext)
-    print(key)
 
     cipher = []
     for i in range(len(plaintext)):
@@ -118,4 +115,3 @@ def generate_vigenere_extended_key(plaintext: bytes, key: bytes):
         key += key
 
     return key[:len(plaintext)]
-    
