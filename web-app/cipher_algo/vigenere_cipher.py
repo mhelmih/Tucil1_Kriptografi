@@ -83,15 +83,21 @@ def vigenere_preprocess(text: str):
 
     return text
 
-def vigenere_extended_encrypt(plaintext: bytes, key: bytes):
+def vigenere_extended_encrypt(plaintext: int, key: int):
     """ Extended Vigenere Encrypt """
     
     key = generate_vigenere_extended_key(plaintext, key)
-    key = bytes(key, encoding='utf-8')
-
+    if type(plaintext) != str:
+        key = bytes(key, encoding='utf-8')
+    
     cipher = []
     for i in range(len(plaintext)):
-        c = (plaintext[i] + key[i]) % 256
+        c = ''
+        if type(plaintext[i]) == str:
+            # convert to ascii
+            c = int(ord(plaintext[i]) + ord(key[i])) % 256
+        else:
+            c = int(plaintext[i] + key[i]) % 256
         cipher.append(c)
     
     return bytes(cipher)

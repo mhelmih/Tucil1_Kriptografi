@@ -13,31 +13,31 @@ def vigenere_post(app: Flask):
     if data['input-type'] == 'write':
         if data['action-type'] == 'encrypt':
             ciphertext = vigenere_encrypt(data['text'], data['key'], data['vigenere-mode'])
+            if data['vigenere-mode'] == 'extended':
+                ciphertext = ciphertext.decode('latin-1')
             return render_template('vigenere_cipher.html', hasil_cipher_text=ciphertext, plain_text=data['text'])
         elif data['action-type'] == 'decrypt':
             plaintext = vigenere_decrypt(data['text'], data['key'], data['vigenere-mode'])
+            if data['vigenere-mode'] == 'extended':
+                plaintext = plaintext.decode('latin-1')
             return render_template('vigenere_cipher.html', cipher_text=data['text'],hasil_plain_text=plaintext)
         
     elif data['input-type'] == 'file':
-        print(request.files)
-        print(data)
         if data['action-type'] == 'encrypt':
             if 'encrypt-file' not in request.files:
                 flash('No file part')
                 return redirect(request.url)
 
-            print("masuk 1")
             filename, file_extension, file_payload = common.get_file_content(request.files['encrypt-file'])
             new_filename = filename + '_encrypted' + file_extension
-            print("masuk 2")
+
             if data['vigenere-mode'] == 'extended':
                 ciphertext = vigenere_encrypt(file_payload, data['key'], data['vigenere-mode'])
                 destination_path = common.save_binary_result(ciphertext, app.config['UPLOAD_FOLDER'], new_filename)
             else:
-                print("masuk 3")
                 ciphertext = vigenere_encrypt(file_payload.decode('utf-8'), data['key'], data['vigenere-mode'])
                 destination_path = common.save_result(ciphertext, app.config['UPLOAD_FOLDER'], new_filename)
-            print("masuk 4")
+         
             return render_template('vigenere_cipher.html', hasil_cipher_filepath=destination_path, hasil_cipher_filename=new_filename)
         
         elif data['action-type'] == 'decrypt':
