@@ -54,13 +54,14 @@ def vigenere_autokey_decrypt(cipher: str, key: str):
     """ Auto-key Vigenere Decrypt """
     
     cipher = vigenere_preprocess(cipher)
-    key = generate_vigenere_autokey(cipher, key)
+    current_key = key
     
     plaintext = []
     for i in range(len(cipher)):
-        p = (lib.alphabet_to_number(cipher[i]) - lib.alphabet_to_number(key[i])) % 26
+        p = (lib.alphabet_to_number(cipher[i]) - lib.alphabet_to_number(current_key[i])) % 26
         p = chr(p + 97)
         plaintext.append(p)
+        current_key += p
         
     return "".join(plaintext)
 
